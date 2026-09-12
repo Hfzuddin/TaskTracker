@@ -1,6 +1,6 @@
 # Task Tracker API
 
-A small Task Tracker REST API built with **.NET 8 Web API** and **Swagger**, for the Junior Full Stack Developer take-home assignment.
+A small Task Tracker REST API built with **.NET 8 Web API** and **Swagger**
 
 - **Project** = a folder (e.g. *Website Redesign*)
 - **Task** = an item inside a project (e.g. *Create wireframes*, status: Todo)
