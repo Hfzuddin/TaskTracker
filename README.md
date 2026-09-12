@@ -33,7 +33,7 @@ Then open in your browser:
 | URL | What it is |
 |---|---|
 | **http://localhost:5041/swagger** | Swagger UI — lists every endpoint. Expand → **Try it out** → fill in → **Execute**. |
-| **http://localhost:5041/** | Blazor page (optional bonus) — a simple UI that calls the API: add/delete projects and tasks, change task status. |
+| **http://localhost:5041/** | Blazor page — a simple UI that calls the API: add/delete projects and tasks, change task status. |
 
 ---
 
@@ -47,8 +47,7 @@ Then open in your browser:
 | Task CRUD — list by project, get one, create under project, update, delete | ✅ Done |
 | Project ↔ Task relationship | ✅ Done |
 | README | ✅ Done |
-| **Optional:** Database (SQL Server / SQLite) | ❌ Not done |
-| **Optional:** Blazor page calling the API | ✅ Done — `Components/Pages/Home.razor`, served at `/` |
+| **Optional:** Blazor page calling the API | ✅ Done |
 
 All 10 endpoints have been tested through Swagger, including the error cases (404 for missing ids, 400 for invalid input). The Blazor page has been tested in the browser for every action.
 
