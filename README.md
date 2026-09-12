@@ -11,12 +11,22 @@ Data is stored in a hard-coded in-memory `List` — no database. Data resets eve
 
 ## How to run
 
-**Requirements:** [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or newer.
+**Requirements:** [Git](https://git-scm.com/downloads) and the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or newer. Check with `dotnet --version`.
 
 ```bash
-cd TaskTracker
+# 1. Get the code
+git clone https://github.com/Hfzuddin/TaskTracker.git
+
+# 2. Go into the project folder (the repo folder contains a TaskTracker project folder)
+cd TaskTracker/TaskTracker
+
+# 3. Run — restores NuGet packages, builds and starts the server
 dotnet run --launch-profile http
 ```
+
+Wait for `Now listening on: http://localhost:5041`. Press `Ctrl+C` to stop.
+
+If you downloaded the repo as a ZIP instead of cloning, unzip it and run steps 2–3 from inside the unzipped folder.
 
 Then open in your browser:
 
