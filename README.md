@@ -37,22 +37,6 @@ Then open in your browser:
 
 ---
 
-## What is completed
-
-| Requirement | Status |
-|---|---|
-| .NET 8 Web API with Swagger | ✅ Done |
-| In-memory hard-coded `List` with sample data (2 projects, 4 tasks) | ✅ Done |
-| Project CRUD — list, get one, create, update, delete | ✅ Done |
-| Task CRUD — list by project, get one, create under project, update, delete | ✅ Done |
-| Project ↔ Task relationship | ✅ Done |
-| README | ✅ Done |
-| **Optional:** Blazor page calling the API | ✅ Done |
-
-All 10 endpoints have been tested through Swagger, including the error cases (404 for missing ids, 400 for invalid input). The Blazor page has been tested in the browser for every action.
-
----
-
 ## Endpoints
 
 | | Projects | Tasks |
