@@ -64,63 +64,6 @@ All 10 endpoints have been tested through Swagger, including the error cases (40
 | `400 Bad Request` | Missing `name` / `title`, invalid `status` value, or malformed JSON |
 | `404 Not Found` | No project / task with that id |
 
-### Example request bodies
-
-Create a project — `POST /api/projects`
-```json
-{ "name": "Office Move", "description": "Relocate to new HQ" }
-```
-
-Create a task — `POST /api/projects/1/tasks`
-```json
-{ "title": "Book movers", "description": null, "status": "Todo", "dueDate": "2026-10-15" }
-```
-
-Update a task — `PUT /api/tasks/1`
-```json
-{ "title": "Create wireframes", "description": "Approved", "status": "Done", "dueDate": null }
-```
-
-`status` must be one of `Todo`, `InProgress`, `Done`.
-
-`id`, `createdAt` and `projectId` are set by the server and ignored if sent by the client.
-
----
-
-## Models
-
-**Project:** `Id`, `Name`, `Description?`, `CreatedAt`, `Tasks`
-
-**TaskItem:** `Id`, `ProjectId`, `Title`, `Description?`, `Status` (`Todo` / `InProgress` / `Done`), `DueDate?`, `CreatedAt`
-
-`?` = optional (may be `null`).
-
-### Sample data (loaded on startup)
-
-| Project | Tasks |
-|---|---|
-| 1 — Website Redesign | 1 — Create wireframes (Todo), 2 — Choose colour palette (InProgress) |
-| 2 — Mobile App Launch | 3 — Set up app store accounts (Done), 4 — Write release notes (Todo) |
-
----
-
-## Project structure
-
-```
-TaskTracker/
-├── TaskTracker.csproj        Project file — targets net8.0, references Swashbuckle (Swagger)
-├── Program.cs                   App startup — registers controllers + Swagger, enum-as-string JSON
-├── Models/
-│   ├── Project.cs               Project class
-│   └── TaskItem.cs              TaskItemStatus enum + TaskItem class
-├── Data/
-│   └── InMemoryData.cs          Static List<Project> with sample data + Id counters
-└── Controllers/
-    ├── ProjectsController.cs    /api/projects endpoints (+ the nested /api/projects/{id}/tasks)
-    └── TasksController.cs       /api/tasks/{id} endpoints
-```
-
----
 
 ## Design notes
 
