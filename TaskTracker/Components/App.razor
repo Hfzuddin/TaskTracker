@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Tracker</title>
+    <base href="/" />
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+        .project { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        .project h2 { margin: 0 0 0.25rem; }
+        .muted { color: #777; }
+        ul { padding-left: 1.25rem; }
+        li { margin: 0.25rem 0; }
+        .form { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1rem; }
+        .form input { flex: 1; min-width: 8rem; padding: 0.3rem; }
+        .error { color: #b00020; background: #fde7ea; padding: 0.5rem; border-radius: 4px; }
+        button.small { font-size: 0.8em; padding: 0.1em 0.5em; }
+        button.danger { color: #b00020; }
+        li select { margin-left: 0.5rem; }
+    </style>
+    <HeadOutlet />
+</head>
+<body>
+    <Routes />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>

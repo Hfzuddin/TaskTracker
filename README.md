@@ -18,11 +18,12 @@ cd TaskTracker
 dotnet run --launch-profile http
 ```
 
-Then open **http://localhost:5041/swagger** in your browser.
+Then open in your browser:
 
-Swagger UI lists every endpoint. For each one: expand → **Try it out** → fill in → **Execute**.
-
-> Note: the root URL `http://localhost:5041/` returns 404 — this is an API with no home page. Use `/swagger`.
+| URL | What it is |
+|---|---|
+| **http://localhost:5041/swagger** | Swagger UI — lists every endpoint. Expand → **Try it out** → fill in → **Execute**. |
+| **http://localhost:5041/** | Blazor page (optional bonus) — a simple UI that calls the API: add/delete projects and tasks, change task status. |
 
 ---
 
@@ -37,9 +38,9 @@ Swagger UI lists every endpoint. For each one: expand → **Try it out** → fil
 | Project ↔ Task relationship | ✅ Done |
 | README | ✅ Done |
 | **Optional:** Database (SQL Server / SQLite) | ❌ Not done |
-| **Optional:** Blazor page calling the API | ❌ Not done |
+| **Optional:** Blazor page calling the API | ✅ Done — `Components/Pages/Home.razor`, served at `/` |
 
-All 10 endpoints have been tested through Swagger, including the error cases (404 for missing ids, 400 for invalid input).
+All 10 endpoints have been tested through Swagger, including the error cases (404 for missing ids, 400 for invalid input). The Blazor page has been tested in the browser for every action.
 
 ---
 
@@ -125,6 +126,7 @@ TaskTracker/
 
 - **Tasks are stored inside their project** (`Project.Tasks`), not in a separate list, so a task exists in exactly one place and nothing can get out of sync. Deleting a project removes its tasks automatically. Looking up a task by id flattens all projects' tasks with `SelectMany`.
 - **The server owns `Id`, `CreatedAt` and `ProjectId`.** On create, `ProjectId` is taken from the URL, never from the request body. On update, only the editable fields are copied.
-- **`Status` is an enum** (`TaskItemStatus`). Invalid values are rejected automatically with 400, and Swagger shows a dropdown. `JsonStringEnumConverter` makes it appear as text (`"Done"`) instead of a number.
+- **`Status` is an enum** (`TaskItemStatus`). Invalid values are rejected automatically with 400, and Swagger shows a dropdown. A `[JsonConverter(typeof(JsonStringEnumConverter))]` attribute on the enum makes it appear as text (`"Done"`) instead of a number in every serialiser (API responses and the Blazor page's `HttpClient`).
 - The enum is named `TaskItemStatus` rather than `TaskStatus` to avoid a clash with .NET's built-in `System.Threading.Tasks.TaskStatus`.
-- No database, repository layer, or dependency injection — kept deliberately simple as per the assignment.
+- **Blazor page (optional bonus)** lives in the same project as the API, using Blazor Server interactive mode. It does **not** touch `InMemoryData` directly — it calls the REST endpoints through `HttpClient`, exactly like an external client would, and re-fetches `GET /api/projects` after every change so the API stays the single source of truth.
+- No database, repository layer, or custom services — kept deliberately simple as per the assignment.

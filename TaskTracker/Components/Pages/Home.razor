@@ -1,0 +1,167 @@
+@page "/"
+@rendermode InteractiveServer
+@inject HttpClient Http
+
+<h1>Task Tracker</h1>
+<p class="muted">Every action on this page calls the API. <a href="/swagger">Open Swagger</a></p>
+
+@if (error != null)
+{
+    <p class="error">@error</p>
+}
+
+<div class="form">
+    <strong>New project</strong>
+    <input placeholder="Name" @bind="newProjectName" />
+    <input placeholder="Description (optional)" @bind="newProjectDescription" />
+    <button @onclick="AddProject">Add project</button>
+</div>
+
+@if (projects == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="form">
+        <strong>Add task</strong>
+        <select @bind="newTaskProjectId">
+            @foreach (var project in projects)
+            {
+                <option value="@project.Id">@project.Name</option>
+            }
+        </select>
+        <input placeholder="Title" @bind="newTaskTitle" />
+        <button @onclick="AddTask">Add task</button>
+    </div>
+
+    @foreach (var project in projects)
+    {
+        <div class="project">
+            <h2>@project.Name</h2>
+            <p class="muted">@project.Description</p>
+
+            @if (project.Tasks.Count == 0)
+            {
+                <p class="muted">No tasks yet.</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var task in project.Tasks)
+                    {
+                        <li>
+                            @task.Title
+                            <select value="@task.Status" @onchange="e => ChangeStatus(task, e)">
+                                @foreach (var status in Enum.GetValues<TaskItemStatus>())
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
+                            <button class="small" @onclick="() => DeleteTask(task)">✕</button>
+                        </li>
+                    }
+                </ul>
+            }
+
+            <button class="small danger" @onclick="() => DeleteProject(project)">Delete project</button>
+        </div>
+    }
+}
+
+@code {
+    private List<Project>? projects;
+    private string? error;
+
+    // Bound to the "New project" inputs
+    private string newProjectName = "";
+    private string newProjectDescription = "";
+
+    // Bound to the "Add task" inputs
+    private int newTaskProjectId;
+    private string newTaskTitle = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProjects();
+    }
+
+    // GET /api/projects — called on load and after every change
+    private async Task LoadProjects()
+    {
+        projects = await Http.GetFromJsonAsync<List<Project>>("api/projects");
+
+        // Make sure the "Add task" dropdown points at a project that exists
+        if (projects != null && projects.Count > 0 && !projects.Any(p => p.Id == newTaskProjectId))
+            newTaskProjectId = projects[0].Id;
+    }
+
+    // POST /api/projects
+    private async Task AddProject()
+    {
+        var project = new Project { Name = newProjectName, Description = newProjectDescription };
+        var response = await Http.PostAsJsonAsync("api/projects", project);
+
+        if (await Succeeded(response))
+        {
+            newProjectName = "";
+            newProjectDescription = "";
+            await LoadProjects();
+        }
+    }
+
+    // POST /api/projects/{id}/tasks
+    private async Task AddTask()
+    {
+        var task = new TaskItem { Title = newTaskTitle };
+        var response = await Http.PostAsJsonAsync($"api/projects/{newTaskProjectId}/tasks", task);
+
+        if (await Succeeded(response))
+        {
+            newTaskTitle = "";
+            await LoadProjects();
+        }
+    }
+
+    // PUT /api/tasks/{id} — only the status changed
+    private async Task ChangeStatus(TaskItem task, ChangeEventArgs e)
+    {
+        task.Status = Enum.Parse<TaskItemStatus>(e.Value?.ToString() ?? "Todo");
+        var response = await Http.PutAsJsonAsync($"api/tasks/{task.Id}", task);
+
+        if (await Succeeded(response))
+            await LoadProjects();
+    }
+
+    // DELETE /api/tasks/{id}
+    private async Task DeleteTask(TaskItem task)
+    {
+        var response = await Http.DeleteAsync($"api/tasks/{task.Id}");
+
+        if (await Succeeded(response))
+            await LoadProjects();
+    }
+
+    // DELETE /api/projects/{id}
+    private async Task DeleteProject(Project project)
+    {
+        var response = await Http.DeleteAsync($"api/projects/{project.Id}");
+
+        if (await Succeeded(response))
+            await LoadProjects();
+    }
+
+    // Clears the error on success; shows the API's message (e.g. "Name is required.") on failure
+    private async Task<bool> Succeeded(HttpResponseMessage response)
+    {
+        if (response.IsSuccessStatusCode)
+        {
+            error = null;
+            return true;
+        }
+
+        var message = await response.Content.ReadAsStringAsync();
+        error = $"{(int)response.StatusCode} {response.StatusCode}: {message}";
+        return false;
+    }
+}

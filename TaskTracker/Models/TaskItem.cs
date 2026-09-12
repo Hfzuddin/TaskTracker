@@ -1,6 +1,11 @@
+using System.Text.Json.Serialization;
+
 namespace TaskTracker.Models;
 
 // The only allowed states for a task. Used by TaskItem.Status.
+// JsonStringEnumConverter: serialise as the name ("InProgress") instead of the number (1),
+// for every JSON serialiser (the API responses and the Blazor page's HttpClient).
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TaskItemStatus
 {
     Todo,
