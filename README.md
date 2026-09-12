@@ -64,5 +64,5 @@ Then open in your browser:
 - **The server owns `Id`, `CreatedAt` and `ProjectId`.** On create, `ProjectId` is taken from the URL, never from the request body. On update, only the editable fields are copied.
 - **`Status` is an enum** (`TaskItemStatus`). Invalid values are rejected automatically with 400, and Swagger shows a dropdown. A `[JsonConverter(typeof(JsonStringEnumConverter))]` attribute on the enum makes it appear as text (`"Done"`) instead of a number in every serialiser (API responses and the Blazor page's `HttpClient`).
 - The enum is named `TaskItemStatus` rather than `TaskStatus` to avoid a clash with .NET's built-in `System.Threading.Tasks.TaskStatus`.
-- **Blazor page (optional bonus)** lives in the same project as the API, using Blazor Server interactive mode. It does **not** touch `InMemoryData` directly — it calls the REST endpoints through `HttpClient`, exactly like an external client would, and re-fetches `GET /api/projects` after every change so the API stays the single source of truth.
-- No database, repository layer, or custom services — kept deliberately simple as per the assignment.
+- **Blazor page** lives in the same project as the API, using Blazor Server interactive mode. It does **not** touch `InMemoryData` directly — it calls the REST endpoints through `HttpClient`, exactly like an external client would, and re-fetches `GET /api/projects` after every change so the API stays the single source of truth.
+- No database, repository layer, or custom services.
