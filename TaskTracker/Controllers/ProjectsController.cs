@@ -1,8 +1,8 @@
-using AventraTracker.Data;
-using AventraTracker.Models;
+using TaskTracker.Data;
+using TaskTracker.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AventraTracker.Controllers;
+namespace TaskTracker.Controllers;
 
 [ApiController]
 [Route("api/projects")]

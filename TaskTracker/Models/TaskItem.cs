@@ -1,4 +1,4 @@
-namespace AventraTracker.Models;
+namespace TaskTracker.Models;
 
 // The only allowed states for a task. Used by TaskItem.Status.
 public enum TaskItemStatus

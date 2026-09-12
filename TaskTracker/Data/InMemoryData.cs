@@ -1,6 +1,6 @@
-using AventraTracker.Models;
+using TaskTracker.Models;
 
-namespace AventraTracker.Data;
+namespace TaskTracker.Data;
 
 // All data lives here, in memory, for as long as the app is running.
 // Restarting the app resets it to this sample data.

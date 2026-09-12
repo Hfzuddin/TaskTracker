@@ -1,4 +1,4 @@
-# Aventra Tracker — Task Tracker API
+# Task Tracker API
 
 A small Task Tracker REST API built with **.NET 8 Web API** and **Swagger**, for the Junior Full Stack Developer take-home assignment.
 
@@ -14,7 +14,7 @@ Data is stored in a hard-coded in-memory `List` — no database. Data resets eve
 **Requirements:** [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or newer.
 
 ```bash
-cd AventraTracker
+cd TaskTracker
 dotnet run --launch-profile http
 ```
 
@@ -106,8 +106,8 @@ Update a task — `PUT /api/tasks/1`
 ## Project structure
 
 ```
-AventraTracker/
-├── AventraTracker.csproj        Project file — targets net8.0, references Swashbuckle (Swagger)
+TaskTracker/
+├── TaskTracker.csproj        Project file — targets net8.0, references Swashbuckle (Swagger)
 ├── Program.cs                   App startup — registers controllers + Swagger, enum-as-string JSON
 ├── Models/
 │   ├── Project.cs               Project class

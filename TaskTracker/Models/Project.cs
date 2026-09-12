@@ -1,4 +1,4 @@
-namespace AventraTracker.Models;
+namespace TaskTracker.Models;
 
 public class Project
 {
